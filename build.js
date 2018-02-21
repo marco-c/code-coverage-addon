@@ -1,10 +1,10 @@
 "use strict";
 
 const fs = require('fs');
-const http = require('follow-redirects').http;
+const https = require('follow-redirects').https;
 const archiver = require('archiver');
 
-var options = {
+let options = {
     host: 'uplift.shipit.staging.mozilla-releng.net',
     path: '/coverage/supported_extensions',
     method: 'GET',
@@ -12,67 +12,66 @@ var options = {
 }
 
 
-var req = http.request(options, (res) => {
+let req = https.get(options, (res) => {
 
-	var data = '';
+	let data = '';
     
-    res.on('data', (chunk) => {
-        data += chunk;
-    });
+	res.on('data', (chunk) => {
+		data += chunk;
+	});
 
-    res.on('end', () => {
+	res.on('end', () => {
 
-        fs.writeFile("supported_extensions.js", "const SUPPORTED_EXTENSIONS = " + data, (e) => {
-	    	if(e) {
-	    		console.log(e.message);
-	    	}
+		let content = `const SUPPORTED_EXTENSIONS = ${data};`;
+
+		fs.writeFile("supported_extensions.js", content, (e) => {
+    	if (e) {
+    		console.log(e.message);
+    	}
 		});
 
-		var excludeFiles = [".gitignore", ".travis.yml", "LICENSE", "README.md", "package.json",
-			  "package-lock.json", "requirements.txt", "setup.cfg", "build.js", "build.py"];
+		let excludeFiles = [
+		".gitignore", ".travis.yml",
+		"LICENSE", "README.md",
+		"package.json", "package-lock.json",
+		"requirements.txt", "setup.cfg",
+		"build.js", "build.py"];
 		
-		var resultFiles = [];
 
-		fs.readdir(".", (err, files) => {
-			files.forEach(file => {
+		fs.readdir(".", (e, files) => {
+			const resultFiles = files.filter(file => !excludeFiles.includes(file));
 
-				if(excludeFiles.indexOf(file) == -1){
-					resultFiles.push(file);
-				}
-
-				if(files.indexOf(file) == files.length - 1){
-					makeZip(resultFiles);
-				}
-			});
+			makeZip(resultFiles);
 		});
 
-    });
+  });
 
 }).on('error', (e) => {
     console.log(e.message);
 });
 
-req.end();
-
 function makeZip(list){
-	var output = fs.createWriteStream('./gecko-code-coverage.zip');
+	const output = fs.createWriteStream('./gecko-code-coverage.zip');
 
-	var archive = archiver('zip', {
+	let archive = archiver('zip', {
 	    gzip: true,
 	    zlib: { level: 9 }
 	});
 
-	archive.on('error', function(e) {
-		if(e){
-			console.log(e.message)
+	archive.on('error', (e) => {
+		if (e) {
+			console.log(e.message);
 		}
 	});
 
 	archive.pipe(output);
 
-	list.forEach(file => {
-		archive.file(file, {name: file});
+	list.forEach (file => {
+		archive.file(file);
 	});
 
 	archive.finalize();
 }
+
+req.end();
+
