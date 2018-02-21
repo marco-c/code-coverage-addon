@@ -14,26 +14,26 @@ https.get('https://uplift.shipit.staging.mozilla-releng.net/coverage/supported_e
     fs.writeFile("supported_extensions.js", content, e => {
       if (e) {
         console.error(e.message);
+        return;
       }
+
+      let excludeFiles = [
+        ".gitignore", ".travis.yml", "LICENSE", "README.md",
+        "package.json", "package-lock.json", "build.js",
+      ];
+
+      fs.readdir(".", (e, files) => {
+        if (e) {
+          console.error(e.message);
+          return;
+        }
+
+        const resultFiles = files.filter(file => !excludeFiles.includes(file));
+
+        makeZip(resultFiles);
+      });
     });
-
-    let excludeFiles = [
-      ".gitignore", ".travis.yml", "LICENSE", "README.md",
-      "package.json", "package-lock.json", "build.js",
-    ];
-
-    fs.readdir(".", (e, files) => {
-      if (e){
-        console.error(e.message);
-      }
-      
-      const resultFiles = files.filter(file => !excludeFiles.includes(file));
-
-      makeZip(resultFiles);
-    });
-
-  });
-
+ });
 }).on('error', e => console.error(e.message));
 
 function makeZip(list){
