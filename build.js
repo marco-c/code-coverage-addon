@@ -5,7 +5,6 @@ const https = require('https');
 const archiver = require('archiver');
 
 https.get('https://uplift.shipit.staging.mozilla-releng.net/coverage/supported_extensions', res => {
-
   let data = '';
     
   res.on('data', chunk => data += chunk);
@@ -14,19 +13,20 @@ https.get('https://uplift.shipit.staging.mozilla-releng.net/coverage/supported_e
 
     fs.writeFile("supported_extensions.js", content, e => {
       if (e) {
-        console.log(e.message);
+        console.error(e.message);
       }
     });
 
     let excludeFiles = [
       ".gitignore", ".travis.yml", "LICENSE", "README.md",
-      "package.json", "package-lock.json", "build.js"
+      "package.json", "package-lock.json", "build.js",
     ];
 
     fs.readdir(".", (e, files) => {
-      if(e){
-        console.log(e.message);
+      if (e){
+        console.error(e.message);
       }
+      
       const resultFiles = files.filter(file => !excludeFiles.includes(file));
 
       makeZip(resultFiles);
@@ -34,7 +34,7 @@ https.get('https://uplift.shipit.staging.mozilla-releng.net/coverage/supported_e
 
   });
 
-}).on('error', e => console.log(e.message));
+}).on('error', e => console.error(e.message));
 
 function makeZip(list){
   const output = fs.createWriteStream('./gecko-code-coverage.zip');
@@ -43,7 +43,7 @@ function makeZip(list){
       zlib: { level: 9 }
   });
 
-  archive.on('error', e => console.log(e.message));
+  archive.on('error', e => console.error(e.message));
 
   archive.pipe(output);
 
