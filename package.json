@@ -3,10 +3,12 @@
   "version": "0.5.1",
   "description": "Extensions that augments several Mozilla websites (Bugzilla, DXR, Searchfox, MozReview) with code coverage information.",
   "dependencies": {
+    "follow-redirects": "^1.4.1",
     "web-ext": "^2.4.0"
   },
   "devDependencies": {},
   "scripts": {
+    "build": "node build.js",
     "test": "web-ext lint"
   },
   "repository": {
