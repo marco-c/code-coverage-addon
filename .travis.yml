@@ -2,8 +2,7 @@ language: node_js
 node_js: node
 install:
     - npm install
-    - export PATH=$HOME/.local/bin:$PATH
 script:
-    - flake8
+    - npm run build
     - npm test
     - test -f gecko-code-coverage.zip
