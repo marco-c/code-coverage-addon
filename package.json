@@ -8,6 +8,7 @@
   },
   "devDependencies": {},
   "scripts": {
+    "lint": "./node_modules/.bin/eslint **/*.js",
     "build": "node build.js",
     "test": "web-ext lint"
   },
