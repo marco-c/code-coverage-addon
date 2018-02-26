@@ -1,9 +1,5 @@
 module.exports = {
     "globals": {
-        "document": true,
-        "window": true,
-        "MutationObserver": true,
-        "requestIdleCallback": true,
         "waitIdle": true,
         "wait": true,
         "fetch": true,
@@ -22,7 +18,13 @@ module.exports = {
         "node": true,
         "webextensions": true
     },
-    "extends": "eslint:recommended",
+    "plugins": [
+        "mozilla"
+    ],
+    "extends": [
+        "plugin:mozilla/recommended",
+        "eslint:recommended"
+    ],
     "parserOptions": {
         "ecmaVersion": 8,
         "ecmaFeatures": {
@@ -43,10 +45,6 @@ module.exports = {
             "warn",
             "single"
         ],
-        "semi": [
-            "error",
-            "always"
-        ],
         "no-unused-vars": [
             "warn",
             "all"
@@ -55,5 +53,6 @@ module.exports = {
             "warn"
         ],
         "no-console": "off"
+        
     }
 };

@@ -3,12 +3,17 @@
   "version": "0.5.1",
   "description": "Extensions that augments several Mozilla websites (Bugzilla, DXR, Searchfox, MozReview) with code coverage information.",
   "dependencies": {
-    "eslint-plugin-mozilla": "^0.9.0",
     "web-ext": "^2.4.0"
   },
-  "devDependencies": {},
+  "peerDependencies": {
+    "eslint": ">=0.8.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-mozilla": "^0.9.0",
+    "eslint-plugin-no-unsanitized": "^3.0.0"
+  },
   "scripts": {
-    "lint": "./node_modules/.bin/eslint **/*.js",
+    "lint": "eslint **/*.js",
     "build": "node build.js",
     "test": "web-ext lint"
   },
