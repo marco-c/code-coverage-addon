@@ -11,12 +11,12 @@ const includeFiles = [
   'spinner.css', 'supported_extensions.js',
 ];
 const zipName = './gecko-code-coverage.zip';
-var manObj;
-fs.readFile('manifest.json', 'utf8', function (err, data) {
+fs.readFile('manifest.json', 'utf8', function(err, data) {
+  var manObj;
   if (err) throw err;
   manObj = JSON.parse(data);
   var packObj;
-  fs.readFile('package.json', 'utf8', function (err, data) {
+  fs.readFile('package.json', 'utf8', function(err, data) {
       if (err) throw err;
       packObj = JSON.parse(data);
       if (manObj["version"] != packObj["version"]) {
@@ -39,13 +39,13 @@ https.get('https://uplift.shipit.staging.mozilla-releng.net/coverage/supported_e
         console.error(e.message);
         return;
       }
-    
+      
       fs.readdir('.', (e, files) => {
         if (e) {
           console.error(e.message);
           return;
         }
-
+        
         const resultFiles = files.filter(file => includeFiles.includes(file));
 
         makeZip(resultFiles);
