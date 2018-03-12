@@ -26,7 +26,6 @@ fs.readFile('manifest.json', 'utf8', function(err, data) {
   });
 });
 
-
 https.get('https://uplift.shipit.staging.mozilla-releng.net/coverage/supported_extensions', res => {
   let data = '';
     
@@ -39,13 +38,13 @@ https.get('https://uplift.shipit.staging.mozilla-releng.net/coverage/supported_e
         console.error(e.message);
         return;
       }
-      
+
       fs.readdir('.', (e, files) => {
         if (e) {
           console.error(e.message);
           return;
         }
-        
+
         const resultFiles = files.filter(file => includeFiles.includes(file));
 
         makeZip(resultFiles);
