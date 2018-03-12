@@ -36,11 +36,11 @@ module.exports = {
             "error",
             2
         ],
-    "no-console": [
-        "error",
-        {
-            "allow": ["error"]
-        }
-    ]        
+        "no-console": [
+            "error",
+            {
+                "allow": ["error"]
+            }
+        ]    
     }
 };
