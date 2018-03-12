@@ -12,16 +12,13 @@ const includeFiles = [
 ];
 const zipName = './gecko-code-coverage.zip';
 fs.readFile('manifest.json', 'utf8', function(err, data) {
-  var manObj;
   if (err) throw err;
-  manObj = JSON.parse(data);
-  var packObj;
+  let manObj = JSON.parse(data);
   fs.readFile('package.json', 'utf8', function(err, data) {
       if (err) throw err;
-      packObj = JSON.parse(data);
+      let packObj = JSON.parse(data);
       if (manObj["version"] != packObj["version"]) {
-          console.error("Different versions of manifest.json and package.json");
-          return;
+          throw "Different versions of manifest.json and package.json";
       }
   });
 });
