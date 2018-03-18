@@ -76,7 +76,7 @@
     a.className = 'help';
     a.textContent = 'Code Coverage:';
     a.href = 'https://addons.mozilla.org/firefox/addon/gecko-code-coverage/';
-	  nameDiv.append(a);
+    nameDiv.append(a);
     mainDiv.appendChild(nameDiv);
     mainDiv.appendChild(valueDiv);
     container.appendChild(mainDiv);
@@ -100,7 +100,7 @@
     field_has_str.parentNode.parentNode.insertBefore(tr, field_has_str.parentNode.nextSibling);
   }
 
-  sssss    const selector_up = bugzilla_modal_ui ? '.comment-text > a' : '.bz_comment_text > a';
+  const selector_up = bugzilla_modal_ui ? '.comment-text > a' : '.bz_comment_text > a';
   document.querySelectorAll(selector_up).forEach(a => {
     const parentId_up = a.parentNode.attributes.id;
     if (parentId_up !== currentCommentId) {
