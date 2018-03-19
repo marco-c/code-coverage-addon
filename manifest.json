@@ -6,11 +6,17 @@
   "icons": {
     "270": "coverage.jpg"
   },
-  "description": "Extensions that augments several Mozilla websites (Bugzilla, DXR, Searchfox, MozReview) with code coverage information.",
+  "description": "Extensions that augments several Mozilla websites (Bugzilla, DXR, HG, Searchfox, MozReview) with code coverage information.",
   "content_scripts": [
     {
       "matches": ["*://dxr.mozilla.org/mozilla-central/source/*"],
       "js": ["supported_extensions.js", "coverage.js", "dxr-common.js", "dxr.js"],
+      "css": ["dxr.css", "spinner.css"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://hg.mozilla.org/mozilla-central/file*"],
+      "js": ["supported_extensions.js", "coverage.js", "dxr-common.js", "hg.js"],
       "css": ["dxr.css", "spinner.css"],
       "run_at": "document_end"
     },
