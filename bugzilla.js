@@ -11,7 +11,7 @@
   var uplift;
   var j=0;
   var myString;
-  var element =  document.getElementById('ct-${j}');
+  var element =  document.getElementById('ct-'+j);
   var str = "Is this code covered by automated tests?";
   while (typeof(element) != 'undefined' && element != null){
 
@@ -23,7 +23,7 @@
   				}
   		}
 
-  		element =  document.getElementById('ct-j');
+  		element =  document.getElementById('ct-'+j);
  }
   
   const bugzilla_modal_ui = !!container;
