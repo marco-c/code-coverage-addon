@@ -20,6 +20,7 @@
   				myString = element.innerHTML;
   				if(myString==str){
   						uplift=element;
+						break;
   				}
   		}
 
@@ -100,7 +101,7 @@
     field_has_str.parentNode.parentNode.insertBefore(tr, field_has_str.parentNode.nextSibling);
   }
 
-  const selector_up = bugzilla_modal_ui ? '.comment-text > a' : '.bz_comment_text > a';
+  const selector_up = bugzilla_modal_ui_1 ? '.comment-text > a' : '.bz_comment_text > a';
   document.querySelectorAll(selector_up).forEach(a => {
     const parentId_up = a.parentNode.attributes.id;
     if (parentId_up !== currentCommentId) {
