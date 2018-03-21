@@ -4,13 +4,26 @@
 
 'use strict';
 
-(async function() {
-  // Don't do anything if this isn't a file.
-  if (!getNavigationPanel()) {
+function getPanel() {
+  return document.getElementByClassName('title_text');
+}
+
+function getPathHhg() {
+  const page_header = document.querySelector('.page_header');
+  if (!page_header) {
     return;
   }
 
-  const path = getPath();
+  return page_header.lastElementChild.href.split('/mozilla-central/')[1];
+}
+
+(async function() {
+  // Don't do anything if this isn't a file.
+  if (!getPanel()) {
+    return;
+  }
+
+  const path = getPathHg();
   if (!path || !isCoverageSupported(path)) {
     return;
   }
@@ -27,7 +40,9 @@
     return;
   }
 
-  let source = document.getElementByClassName('title_text');
-  source.parentNode.insertBefore(button, source.nextSibling);
+  const page_header = document.querySelector('.page_header');
+  if (!page_header) {
+    return;
+  }
+  page_header.parentNode.insertBefore(button, page_header);
 })();
-
