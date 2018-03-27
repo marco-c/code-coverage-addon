@@ -4,11 +4,8 @@
 
 'use strict';
 
-(function() {
-  const container = document.getElementById('module-details-content');
-  const field_has_str = document.getElementById('field_label_cf_has_str');
 
-  const bugzilla_modal_ui = !!container;
+function createCodeCoverage(bugzilla_modal_ui, container, field_has_str){
 
   const hgurlPattern = new RegExp('^http[s]?://hg\\.mozilla\\.org/mozilla-central/rev/([0-9a-f]+)$');
   const revs = [];
@@ -44,11 +41,13 @@
   if (revs.length == 0) {
     return;
   }
-
+ 
   const valueDiv = document.createElement('div');
   valueDiv.classList.add('gecko_coverage_loader', 'gecko_coverage_loader_bugzilla');
 
   if (bugzilla_modal_ui) {
+
+    if(container==document.getElementById('module-details-content')){
     const mainDiv = document.createElement('div');
     mainDiv.className = 'field';
     const nameDiv = document.createElement('div');
@@ -61,6 +60,37 @@
     mainDiv.appendChild(nameDiv);
     mainDiv.appendChild(valueDiv);
     container.appendChild(mainDiv);
+    } else {
+
+    const mainDiv = document.createElement('div');
+    mainDiv.className = 'field';
+    const nameDiv = document.createElement('div');
+    nameDiv.className = 'name';
+    const a = document.createElement('a');
+    a.className = 'help';
+    a.textContent = 'Code Coverage:';
+    a.href = 'https://addons.mozilla.org/firefox/addon/gecko-code-coverage/';
+    var str = "[Has the fix been verified in Nightly?]";
+    var str_innerHtml = container.innerHTML;
+    var res1 = str_innerHtml.slice(0,container.innerHTML.indexOf(str));
+    console.log("res1="+res1);
+    var res2 = str_innerHtml.slice(str_innerHtml.indexOf(str),str_innerHtml.length);
+    var q=str_innerHtml.length;
+    console.log("length="+q);
+    container.innerHTML="";
+    mainDiv.innerHTML = res1;
+    console.log(mainDiv.innerHTML);
+    const upperstring = document.createElement('div');
+    upperstring.className = 'upper';
+    upperstring.innerHTML = res2;
+    nameDiv.append(a);
+    mainDiv.appendChild(nameDiv);
+    mainDiv.appendChild(valueDiv);
+    mainDiv.appendChild(upperstring);
+    container.appendChild(mainDiv);
+    }
+
+    
   } else {
     const tr = document.createElement('tr');
     const th = document.createElement('th');
@@ -78,7 +108,7 @@
     td.append(valueDiv);
     tr.append(td);
     field_has_str.parentNode.parentNode.insertBefore(tr, field_has_str.parentNode.nextSibling);
-  }
+    }
 
   let promises = revs.map(fetchChangesetCoverage);
 
@@ -142,4 +172,34 @@
         valueDiv.appendChild(document.createTextNode(')'));
       }
     });
-})();
+
+}
+
+(function() {
+  const container = document.getElementById('module-details-content');
+  const field_has_str = document.getElementById('field_label_cf_has_str');
+
+  const bugzilla_modal_ui = !!container;
+  console.log("123");
+  createCodeCoverage(bugzilla_modal_ui,container,field_has_str);
+
+   var uplift;
+    var j=0, k=0;
+    var element =  document.getElementById('ct-'+j);
+    var str = "[Has the fix been verified in Nightly?]";
+    while (k<50){
+        var i;
+        if(element.innerHTML.indexOf(str)>-1){
+           var str_innerHtml = element.innerHTML;
+           uplift=element;
+           const bugzilla_modal_ui_uplift = !!element;
+           createCodeCoverage(bugzilla_modal_ui_uplift,element,uplift);
+          break;
+        }
+        element =  document.getElementById('ct-'+j);
+        j++;
+        k++;
+   }
+    
+
+  })();
