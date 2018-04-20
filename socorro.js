@@ -1,6 +1,7 @@
 /* This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 "use strict";
 
 const hgurlPattern = new RegExp("^http[s]?://hg\\.mozilla\\.org/mozilla-central/annotate/([0-9a-f]+)/([^#]+)#l([0-9]+)$");
@@ -43,16 +44,16 @@ if (Object.keys(fileinfo).length != 0) {
   spinnerDiv.style.display = "inline-block";
 
   for (const [filename, info] of Object.entries(fileinfo)) {
-    for (const [revision, les] of Object.entries(info)) {
+    for (const [revision, lineElements] of Object.entries(info)) {
       // Add the spinners
-      for (const le of les) {
+      for (const le of lineElements) {
         const e = spinnerDiv.cloneNode();
         le.element.append(e);
         le.element = e;
       }
       fetchCoverage(revision, filename).then(data => {
         if (data !== null && !data.hasOwnProperty("error")) {
-          for (const le of les) {
+          for (const le of lineElements) {
             const line = le.line;
             if (line in data) {
               // line is covered or uncovered
@@ -61,7 +62,7 @@ if (Object.keys(fileinfo).length != 0) {
           }
         }
         // Remove all the spinners
-        for (const le of les) {
+        for (const le of lineElements) {
           le.element.className = "";
         }
       });
