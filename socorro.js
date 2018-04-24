@@ -51,8 +51,11 @@ if (Object.keys(fileinfo).length != 0) {
         le.element.append(e);
         le.element = e;
       }
-      fetchCoverage(revision, filename).then(data => {console.log(data);
-        if (data !== null && !data.hasOwnProperty("error") && data.hasOwnProperty("data")) {
+      fetchCoverage(revision, filename).then(data => {
+        if (data !== null && !data.hasOwnProperty("error")) {
+          if (!data.hasOwnProperty("data")) {
+            throw new Error("No \'data\' field");
+          }
           const covData = data["data"];
           for (const le of lineElements) {
             const line = le.line;

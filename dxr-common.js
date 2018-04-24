@@ -37,17 +37,18 @@ async function getCoverage(revPromise, path) {
 async function applyOverlay(revPromise, path) {
   let result = await getCoverage(revPromise, path);
 
-  if (result.hasOwnProperty('data')) {
-    for (let [l, c] of Object.entries(result['data'])) {
-      const line_no = document.getElementById(lineNoMap(l));
-      const line = document.getElementById(`line-${l}`);
-      if (c > 0) {
-        line_no.style.backgroundColor = 'greenyellow';
-        line.style.backgroundColor = 'greenyellow';
-      } else {
-        line_no.style.backgroundColor = 'tomato';
-        line.style.backgroundColor = 'tomato';
-      }
+  if (!result.hasOwnProperty('data')) {
+    throw new Error('No \'data\' field');
+  }
+  for (let [l, c] of Object.entries(result['data'])) {
+    const line_no = document.getElementById(lineNoMap(l));
+    const line = document.getElementById(`line-${l}`);
+    if (c > 0) {
+      line_no.style.backgroundColor = 'greenyellow';
+      line.style.backgroundColor = 'greenyellow';
+    } else {
+      line_no.style.backgroundColor = 'tomato';
+      line.style.backgroundColor = 'tomato';
     }
   }
 }
