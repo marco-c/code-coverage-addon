@@ -53,7 +53,7 @@ if (Object.keys(fileinfo).length != 0) {
       }
       fetchCoverage(revision, filename).then(data => {console.log(data);
         if (data !== null && !data.hasOwnProperty("error") && data.hasOwnProperty("data")) {
-	  const covData = data["data"];
+          const covData = data["data"];
           for (const le of lineElements) {
             const line = le.line;
             if (line in covData) {
