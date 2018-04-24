@@ -51,13 +51,14 @@ if (Object.keys(fileinfo).length != 0) {
         le.element.append(e);
         le.element = e;
       }
-      fetchCoverage(revision, filename).then(data => {
-        if (data !== null && !data.hasOwnProperty("error")) {
+      fetchCoverage(revision, filename).then(data => {console.log(data);
+        if (data !== null && !data.hasOwnProperty("error") && data.hasOwnProperty("data")) {
+	  const covData = data["data"];
           for (const le of lineElements) {
             const line = le.line;
-            if (line in data) {
+            if (line in covData) {
               // line is covered or uncovered
-              le.element.parentNode.style.backgroundColor = data[line] == 0 ? "tomato" : "greenyellow";
+              le.element.parentNode.style.backgroundColor = covData[line] == 0 ? "tomato" : "greenyellow";
             }
           }
         }
