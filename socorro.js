@@ -44,9 +44,9 @@ if (Object.keys(fileinfo).length != 0) {
   spinnerDiv.style.display = "inline-block";
 
   const linkToCodecov = document.createElement("a");
-  linkToCodecov.setAttribute("target", "blank_");
+  linkToCodecov.setAttribute("target", "_blank");
   const icon = document.createElement("div");
-  icon.setAttribute("class", "codecov");
+  icon.setAttribute("class", "codecov-icon");
   linkToCodecov.append(icon);
 
   for (const [filename, info] of Object.entries(fileinfo)) {
