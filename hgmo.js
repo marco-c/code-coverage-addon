@@ -15,7 +15,6 @@ document.querySelectorAll("title").forEach(title => {
     filename = m[1];
     revision = m[2];
   }
-  return;
 });
 
 async function applyOverlay(revPromise, path) {
@@ -26,15 +25,12 @@ async function applyOverlay(revPromise, path) {
   const data = result["data"];
   document.querySelectorAll("[id^='l']").forEach(e => {
     const m = e.id.match(linePattern);
-    if (m) {
-      const linenum = m[1];
-      if (data.hasOwnProperty(linenum)) {
-        if (data[linenum] > 0) {
-          e.style.backgroundColor = "greenyellow";
-        } else {
-          e.style.backgroundColor = "tomato";
-        }
-      }
+    if (!m) {
+      return;
+    }
+    const linenum = m[1];
+    if (data.hasOwnProperty(linenum)) {
+      e.style.backgroundColor = (data[linenum] > 0) ? "greenyellow" : "tomato";
     }
   });
 }
@@ -48,12 +44,10 @@ function removeOverlay() {
   });
 }
 
-let div_header = null;
-document.querySelectorAll(".page_header").forEach(div => {
-  div_header = div;
-  return;
-});
-if (div_header) {
-  const button = injectToggle(revision, filename);
-  div_header.append(button);
+const div_headers = document.querySelectorAll(".page_header");
+if (div_headers.length > 1) {
+  throw new Exception("Only one .page_header was expected");
 }
+const div_header = div_headers[0];
+const button = injectToggle(revision, filename);
+div_header.append(button);
