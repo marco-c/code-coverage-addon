@@ -38,6 +38,12 @@ document.querySelectorAll("#frames table:first-of-type td > a[href^='https://hg.
   }
 });
 
+function removeSpinners(lineElements) {
+  for (const le of lineElements) {
+    le.element.parentNode.removeChild(le.element);
+  }
+}
+
 if (Object.keys(fileinfo).length != 0) {
   const spinnerDiv = document.createElement("div");
   spinnerDiv.classList.add("gecko_coverage_loader", "gecko_coverage_loader_socorro");
@@ -60,6 +66,7 @@ if (Object.keys(fileinfo).length != 0) {
       fetchCoverage(revision, filename).then(data => {
         if (data !== null && !data.hasOwnProperty("error")) {
           if (!data.hasOwnProperty("data")) {
+            removeSpinners(lineElements);
             throw new Error("No \'data\' field");
           }
           const covData = data["data"];
@@ -68,7 +75,7 @@ if (Object.keys(fileinfo).length != 0) {
             if (line in covData) {
               // line is covered or uncovered
               le.element.parentNode.style.backgroundColor = covData[line] == 0 ? "tomato" : "greenyellow";
-              const gitBuildChangeset = data['git_build_changeset'];
+              const gitBuildChangeset = data["git_build_changeset"];
               const codecovUrl = `https://codecov.io/gh/mozilla/gecko-dev/src/${gitBuildChangeset}/${filename}#L${line}`;
               const a = linkToCodecov.cloneNode(true);
               a.setAttribute("href", codecovUrl);
@@ -76,10 +83,7 @@ if (Object.keys(fileinfo).length != 0) {
             }
           }
         }
-        // Remove all the spinners
-        for (const le of lineElements) {
-          le.element.parentNode.removeChild(le.element);
-        }
+        removeSpinners(lineElements);
       });
     }
   }
