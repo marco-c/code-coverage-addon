@@ -38,12 +38,6 @@ document.querySelectorAll("#frames table:first-of-type td > a[href^='https://hg.
   }
 });
 
-function removeSpinners(lineElements) {
-  for (const le of lineElements) {
-    le.element.parentNode.removeChild(le.element);
-  }
-}
-
 if (Object.keys(fileinfo).length != 0) {
   const spinnerDiv = document.createElement("div");
   spinnerDiv.classList.add("gecko_coverage_loader", "gecko_coverage_loader_socorro");
@@ -66,7 +60,6 @@ if (Object.keys(fileinfo).length != 0) {
       fetchCoverage(revision, filename).then(data => {
         if (data !== null && !data.hasOwnProperty("error")) {
           if (!data.hasOwnProperty("data")) {
-            removeSpinners(lineElements);
             throw new Error("No \'data\' field");
           }
           const covData = data["data"];
@@ -83,7 +76,11 @@ if (Object.keys(fileinfo).length != 0) {
             }
           }
         }
-        removeSpinners(lineElements);
+      }).finally(() => {
+        // Remove the spinners
+        for (const le of lineElements) {
+          le.element.parentNode.removeChild(le.element);
+        }
       });
     }
   }
