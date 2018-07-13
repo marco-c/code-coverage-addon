@@ -41,12 +41,12 @@ function injectToggle(revPromise, path) {
       button.appendChild(spinner);
       try {
         await applyOverlay(revPromise, path);
-        button.removeChild(spinner);
         button.style.backgroundColor = 'lightgrey';
       } catch (ex) {
         button.style.backgroundColor = 'red';
-        button.removeChild(spinner);
         disableButton(button, 'Error retrieving coverage information for this file');
+      } finally {
+        button.removeChild(spinner);
       }
     } else {
       removeOverlay();
