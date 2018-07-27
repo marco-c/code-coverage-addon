@@ -6,6 +6,34 @@
 
 let parentRevisionPromise;
 
+function getLines(block) {
+  return block.querySelectorAll('table.differential-diff tbody tr th:first-child');
+}
+
+function applyOverlay(block, data) {
+  for (let line of getLines(block)) {
+    let lineNumber = parseInt(line.textContent);
+    if (isNaN(lineNumber)) {
+      continue;
+    }
+    if (!data.hasOwnProperty(lineNumber)) {
+      continue;
+    }
+
+    if (data[lineNumber] > 0) {
+      line.style.backgroundColor = 'greenyellow';
+    } else {
+      line.style.backgroundColor = 'tomato';
+    }
+  }
+}
+
+function removeOverlay(block) {
+  for (let line of getLines(block)) {
+    line.style.backgroundColor = '';
+  }
+}
+
 async function injectButton(block) {
   let path = block.querySelector('h1.differential-file-icon-header').textContent;
   if (!isCoverageSupported(path)) {
@@ -13,47 +41,27 @@ async function injectButton(block) {
   }
 
   let buttonDiv = block.querySelector('div.differential-changeset-buttons');
-
-  function getLines() {
-    return block.querySelectorAll('table.differential-diff tbody tr th:first-child');
-  }
-
   let button = document.createElement('button');
   button.type = 'button';
-  button.textContent = 'Loading Code Coverage...';
+  button.textContent = 'Code Coverage';
   button.disabled = true;
+  button.title = 'Loading...';
   button.className = 'button button-grey';
+  button.style['cursor'] = 'not-allowed';
   buttonDiv.append(button);
 
   let parentRevision = await parentRevisionPromise;
   let data;
   if (!parentRevision) {
-    data = null;
+    button.title = 'Error fetching parent revision.';
+    return;
   } else {
-    ({ data } = await fetchCoverage(parentRevision, path));
-  }
-
-  function applyOverlay(data) {
-    for (let line of getLines()) {
-      let lineNumber = parseInt(line.textContent);
-      if (isNaN(lineNumber)) {
-        continue;
-      }
-      if (!data.hasOwnProperty(lineNumber)) {
-        continue;
-      }
-
-      if (data[lineNumber] > 0) {
-        line.style.backgroundColor = 'greenyellow';
-      } else {
-        line.style.backgroundColor = 'tomato';
-      }
-    }
-  }
-
-  function removeOverlay() {
-    for (let line of getLines()) {
-      line.style.backgroundColor = '';
+    const coverage = await fetchCoverage(parentRevision, path);
+    if (!coverage.hasOwnProperty('data') || coverage.hasOwnProperty('error')) {
+      button.title = 'Failed fetching Coverage Data.'
+      return;
+    } else {
+      data = coverage.data;
     }
   }
 
@@ -62,21 +70,17 @@ async function injectButton(block) {
     enabled = !enabled;
 
     if (enabled) {
-      applyOverlay(data);
+      applyOverlay(block, data);
     } else {
-      removeOverlay();
+      removeOverlay(block);
     }
   }
 
+  // Enable the code coverage button.
   button.onclick = toggle;
-
-  // Enable or disable the code coverage button.
-  if (!data) {
-    button.textContent = 'No Code Coverage Data'
-  } else {
-    button.disabled = false;
-    button.textContent = 'Code Coverage'
-  }
+  button.style['cursor'] = 'default';
+  button.title = 'Toggle viewing code coverage.';
+  button.disabled = false;
 }
 
 async function fetchParentRevision() {
