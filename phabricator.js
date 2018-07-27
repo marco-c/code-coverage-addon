@@ -8,6 +8,10 @@ let parentRevisionPromise;
 
 async function injectButton(block) {
   let path = block.querySelector('h1.differential-file-icon-header').textContent;
+  if (!isCoverageSupported(path)) {
+    return;
+  }
+
   let buttonDiv = block.querySelector('div.differential-changeset-buttons');
 
   function getLines() {
