@@ -35,13 +35,13 @@ function removeOverlay(block) {
 }
 
 async function injectButton(block) {
-  let path = block.querySelector('h1.differential-file-icon-header').textContent;
+  const path = block.querySelector('h1.differential-file-icon-header').textContent;
   if (!isCoverageSupported(path)) {
     return;
   }
 
-  let buttonDiv = block.querySelector('div.differential-changeset-buttons');
-  let button = document.createElement('button');
+  const buttonDiv = block.querySelector('div.differential-changeset-buttons');
+  const button = document.createElement('button');
   button.type = 'button';
   button.textContent = 'Code Coverage';
   button.disabled = true;
@@ -50,7 +50,7 @@ async function injectButton(block) {
   button.style['cursor'] = 'not-allowed';
   buttonDiv.append(button);
 
-  let parentRevision = await parentRevisionPromise;
+  const parentRevision = await parentRevisionPromise;
   let data;
   if (!parentRevision) {
     button.title = 'Error fetching parent revision.';
@@ -85,15 +85,15 @@ async function injectButton(block) {
 
 async function fetchParentRevision() {
   const revisionPHIDpattern = RegExp('/(PHID-DREV-[^/]*)/');
-  let href = document.querySelector('a.policy-link[data-sigil=workflow]').getAttribute('href');
-  let diffIdMatch = href.match(revisionPHIDpattern);
+  const href = document.querySelector('a.policy-link[data-sigil=workflow]').getAttribute('href');
+  const diffIdMatch = href.match(revisionPHIDpattern);
   if (!diffIdMatch) {
     console.error('diff id not found!');
     return null;
   }
-  let phid = diffIdMatch[1];
+  const phid = diffIdMatch[1];
 
-  let revisionResponse = await phidToHg(phid);
+  const revisionResponse = await phidToHg(phid);
   if (revisionResponse.error) {
     console.error(revisionResponse.error);
     return null;
