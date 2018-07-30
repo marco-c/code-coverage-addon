@@ -58,7 +58,7 @@ async function injectButton(block) {
   } else {
     const coverage = await fetchCoverage(parentRevision, path);
     if (!coverage.hasOwnProperty('data') || coverage.hasOwnProperty('error')) {
-      button.title = 'Failed fetching Coverage Data.'
+      button.title = 'Failed fetching coverage data.'
       return;
     } else {
       data = coverage.data;
