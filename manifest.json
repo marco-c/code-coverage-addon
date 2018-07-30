@@ -48,7 +48,6 @@
     {
       "matches": ["*://phabricator.services.mozilla.com/D*"],
       "js": ["supported_extensions.js", "coverage.js", "phabricator.js"],
-      "css": ["spinner.css", "phabricator.css"],
       "run_at": "document_idle"
     }
   ],
