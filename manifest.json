@@ -27,12 +27,6 @@
       "run_at": "document_end"
     },
     {
-      "matches": ["*://reviewboard.mozilla.org/r/*/diff/*"],
-      "js": ["supported_extensions.js", "coverage.js"],
-      "css": ["spinner.css"],
-      "run_at": "document_end"
-    },
-    {
       "matches": ["*://crash-stats.mozilla.com/report/index/*"],
       "js": ["supported_extensions.js", "coverage.js", "socorro.js"],
       "css": ["spinner.css", "socorro.css"],
