@@ -4,8 +4,12 @@
 
 'use strict';
 
+const COVERAGE_BACKEND = 'https://coverage.testing.moz.tools/v2'
+
 async function fetchCoverage(rev, path) {
-  let response = await fetch(`https://coverage.moz.tools/coverage/file?changeset=${rev}&path=${path}`);
+  console.debug('Fetch Coverage for', rev, path);
+  // TODO: add changeset argument when it works with latest rev
+  let response = await fetch(COVERAGE_BACKEND + `/path?path=${path}`);
   return await response.json();
 }
 
