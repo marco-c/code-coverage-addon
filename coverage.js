@@ -4,12 +4,13 @@
 
 'use strict';
 
-const COVERAGE_BACKEND = 'https://coverage.testing.moz.tools/v2'
+const config = require('./config.js');
+
 
 async function fetchCoverage(rev, path) {
   console.debug('Fetch Coverage for', rev, path);
   // TODO: add changeset argument when it works with latest rev
-  let response = await fetch(COVERAGE_BACKEND + `/path?path=${path}`);
+  let response = await fetch(config.BACKEND_URL + `/v2/path?path=${path}`);
   return await response.json();
 }
 
