@@ -6,8 +6,9 @@ const archiver = require('archiver');
 const config = require('./config.js');
 
 const includeFiles = [
+  'config.js',
   'coverage.jpg', 'coverage.js',
-  'button.js', 'config.js',
+  'button.js',
   'dxr.css', 'dxr.js', 'dxr-common.js',
   'manifest.json', 'searchfox.js',
   'socorro.js', 'socorro.css', 'codecov.png',
@@ -26,7 +27,8 @@ fs.readFile('manifest.json', 'utf8', function(err, data) {
   });
 });
 
-https.get(config.BACKEND_URL + '/v2/extensions', res => {
+console.log('Using backend:', CONFIG.BACKEND_URL);
+https.get(CONFIG.BACKEND_URL + '/v2/extensions', res => {
   if(res.statusCode !== 200)
     throw new Error('Invalid response from backend: ' + res.statusCode)
 
