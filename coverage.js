@@ -23,22 +23,6 @@ async function waitIdle(time) {
   return new Promise(resolve => requestIdleCallback(resolve));
 }
 
-async function fetchChangesetCoverage(rev) {
-  let ready = false;
-  do {
-    let response = await fetch(`https://coverage.moz.tools/coverage/changeset_summary/${rev}`);
-
-    if (response.status == 202) {
-      await wait(5000);
-      continue;
-    }
-
-    let result = await response.json();
-    result['rev'] = rev;
-    return result;
-  } while (!ready);
-}
-
 async function gitToHg(gitrev) {
   let response = await fetch(`https://mapper.mozilla-releng.net/gecko-dev/rev/git/${gitrev}`);
   if (!response.ok) {
