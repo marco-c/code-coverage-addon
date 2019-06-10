@@ -5,7 +5,6 @@
 'use strict';
 
 async function fetchCoverage(rev, path) {
-  console.debug('Fetch Coverage for', rev, path);
   let response = await fetch(`${CONFIG.BACKEND_URL}/v2/path?path=${path}&changeset=${rev}`);
   return await response.json();
 }
