@@ -4,14 +4,18 @@
 
 'use strict';
 
+const btn = require('./button');
+const coverage = require('./coverage.js');
+const dxr = require('./dxr-common.js');
+
 (async function() {
   // Don't do anything if this isn't a file.
-  if (!getNavigationPanel()) {
+  if (!dxr.getNavigationPanel()) {
     return;
   }
 
-  const path = getPath();
-  if (!path || !isCoverageSupported(path)) {
+  const path = dxr.getPath();
+  if (!path || !coverage.isCoverageSupported(path)) {
     return;
   }
 
@@ -20,9 +24,9 @@
   const revSpan = document.getElementById('rev-id');
   const m = revSpan.innerHTML.match(revPattern);
   const gitRev = m[1];
-  const revPromise = gitToHg(gitRev);
+  const revPromise = coverage.gitToHg(gitRev);
 
-  const button = injectToggle(revPromise, path);
+  const button = btn.injectToggle(revPromise, path, dxr.applyOverlay, dxr.removeOverlay);
   if (!button) {
     return;
   }

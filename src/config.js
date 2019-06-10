@@ -1,4 +1,3 @@
-// Old style exports
-CONFIG = {
-  'BACKEND_URL' : 'https://coverage.moz.tools',
+export default {
+  BACKEND_URL: 'https://coverage.moz.tools',
 }
