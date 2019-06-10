@@ -1,4 +1,4 @@
 // Old style exports
 window.CONFIG = {
-	'BACKEND_URL' : 'https://coverage.testing.moz.tools',
+	'BACKEND_URL' : 'https://coverage.moz.tools',
 }
