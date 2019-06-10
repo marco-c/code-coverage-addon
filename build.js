@@ -31,7 +31,7 @@ console.log('Using backend:', CONFIG.BACKEND_URL);
 https.get(CONFIG.BACKEND_URL + '/v2/extensions', res => {
   if (res.statusCode !== 200) {
     throw new Error('Invalid response from backend: ' + res.statusCode);
-	}
+  }
 
   let data = '';
 
