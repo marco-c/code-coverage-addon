@@ -3,7 +3,7 @@
 const fs = require('fs');
 const https = require('https');
 const archiver = require('archiver');
-const config = require('./config.js');
+require('./config.js');
 
 const includeFiles = [
   'config.js',

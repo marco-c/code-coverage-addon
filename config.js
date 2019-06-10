@@ -1,4 +1,4 @@
 // Old style exports
-window.CONFIG = {
+CONFIG = {
 	'BACKEND_URL' : 'https://coverage.moz.tools',
 }
