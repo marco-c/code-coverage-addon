@@ -29,6 +29,6 @@
   },
   "homepage": "https://github.com/mozilla/code-coverage-addon#readme",
   "webExt": {
-    "sourceDir": "src"
+    "verbose": true
   }
 }
