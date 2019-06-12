@@ -4,8 +4,7 @@
 
 "use strict";
 
-const btn = require('./button');
-const coverage = require('./coverage.js');
+import {getCoverage, injectToggle} from './button';
 
 let filename = "";
 let revision = "";
@@ -21,7 +20,7 @@ document.querySelectorAll("title").forEach(title => {
 });
 
 async function applyOverlay(revPromise, path) {
-  let result = await coverage.getCoverage(revPromise, path);
+  let result = await getCoverage(revPromise, path);
   if (!result.hasOwnProperty("coverage")) {
     throw new Error("No 'coverage' field");
   }
@@ -52,5 +51,5 @@ if (div_headers.length > 1) {
   throw new Error("Only one .page_header was expected");
 }
 const div_header = div_headers[0];
-const button = btn.injectToggle(revision, filename, applyOverlay, removeOverlay);
+const button = injectToggle(revision, filename, applyOverlay, removeOverlay);
 div_header.append(button);

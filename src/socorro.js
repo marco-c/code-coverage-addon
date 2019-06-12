@@ -4,7 +4,7 @@
 
 "use strict";
 
-const coverage = require('./coverage.js');
+import {isCoverageSupported, fetchCoverage} from './coverage';
 
 const hgurlPattern = new RegExp("^http[s]?://hg\\.mozilla\\.org/mozilla-central/annotate/([0-9a-f]+)/([^#]+)#l([0-9]+)$");
 // fileinfo: filename => { revision => [{line, element}, ...] }
@@ -15,7 +15,7 @@ document.querySelectorAll("#frames table:first-of-type td > a[href^='https://hg.
     return;
   }
   const filename = m[2];
-  if (!coverage.isCoverageSupported(filename)) {
+  if (!isCoverageSupported(filename)) {
     return;
   }
   const line = m[3];
@@ -59,7 +59,7 @@ if (Object.keys(fileinfo).length != 0) {
         le.element.append(e);
         le.element = e;
       }
-      coverage.fetchCoverage(revision, filename).then(data => {
+      fetchCoverage(revision, filename).then(data => {
         if (data !== null && !data.hasOwnProperty("error")) {
           if (!data.hasOwnProperty("coverage")) {
             throw new Error("No 'data' field");

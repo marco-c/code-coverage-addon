@@ -4,19 +4,19 @@
 
 'use strict';
 
-const btn = require('./button.js');
-const coverage = require('./coverage.js');
-const dxr = require('./dxr-common.js');
+import {injectToggle} from './button';
+import {isCoverageSupported} from './coverage';
+import {applyOverlay, removeOverlay, getPath, getNavigationPanel} from './dxr-common';
 
 (function() {
   // Don't do anything if this isn't a file.
-  const panel = dxr.getNavigationPanel();
+  const panel = getNavigationPanel();
   if (!panel) {
     return;
   }
 
-  const path = dxr.getPath();
-  if (!path || !coverage.isCoverageSupported(path)) {
+  const path = getPath();
+  if (!path || !isCoverageSupported(path)) {
     return;
   }
 
@@ -25,7 +25,7 @@ const dxr = require('./dxr-common.js');
   const m = panel.innerHTML.match(revPattern);
   const revPromise = Promise.resolve(m[1]);
 
-  const button = btn.injectToggle(revPromise, path, dxr.applyOverlay, dxr.removeOverlay);
+  const button = injectToggle(revPromise, path, applyOverlay, removeOverlay);
   if (!button) {
     return;
   }

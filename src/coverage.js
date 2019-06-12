@@ -4,11 +4,11 @@
 
 'use strict';
 
-const config = require('./config.js');
-const extensions = require('../assets/extensions.json');
+import BACKEND_URL from './config';
+const extensions = require('extensions.json')
 
 export async function fetchCoverage(rev, path) {
-  let response = await fetch(`${config.BACKEND_URL}/v2/path?path=${path}&changeset=${rev}`);
+  let response = await fetch(`${BACKEND_URL}/v2/path?path=${path}&changeset=${rev}`);
   return await response.json();
 }
 

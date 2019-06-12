@@ -4,7 +4,7 @@
 
 'use strict';
 
-const coverage = require('./coverage.js');
+import {getCoverage} from './button';
 
 let lineNoMap = (function() {
   let mapper;
@@ -25,7 +25,7 @@ let lineNoMap = (function() {
 })();
 
 export async function applyOverlay(revPromise, path) {
-  let result = await coverage.getCoverage(revPromise, path);
+  let result = await getCoverage(revPromise, path);
 
   if (!result.hasOwnProperty('coverage')) {
     throw new Error('No \'coverage\' field');

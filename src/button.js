@@ -4,14 +4,14 @@
 
 'use strict';
 
-const coverage = require('./coverage.js');
+import {fetchCoverage} from './coverage';
 
 let resultPromise;
-async function getCoverage(revPromise, path) {
+export async function getCoverage(revPromise, path) {
   if (!resultPromise) {
     resultPromise = (async function() {
       const rev = await revPromise;
-      return coverage.fetchCoverage(rev, path);
+      return fetchCoverage(rev, path);
     })();
   }
 
