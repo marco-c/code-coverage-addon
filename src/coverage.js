@@ -4,7 +4,7 @@
 
 'use strict';
 
-import BACKEND_URL from './config';
+import {BACKEND_URL} from './config';
 const extensions = require('extensions.json')
 
 export async function fetchCoverage(rev, path) {

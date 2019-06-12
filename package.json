@@ -1,6 +1,6 @@
 {
   "name": "gecko-code-coverage",
-  "version": "0.10.1",
+  "version": "0.11.0",
   "description": "Extension that augments several Mozilla websites (DXR, Searchfox) with code coverage information.",
   "dependencies": {},
   "peerDependencies": {
@@ -16,7 +16,10 @@
   "scripts": {
     "lint": "eslint src/*.js",
     "build": "webpack",
-    "test": "web-ext lint"
+    "build:watch": "npm run build -- -w",
+    "start": "npm run build && web-ext run --start-url=https://searchfox.org/mozilla-central/source/js/src/jsdate.cpp --start-url=https://hg.mozilla.org/mozilla-central/file/tip/dom/ipc/BrowserHost.cpp",
+    "test": "web-ext lint",
+    "export": "web-ext build"
   },
   "repository": {
     "type": "git",

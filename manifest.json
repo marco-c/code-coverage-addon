@@ -10,26 +10,26 @@
   "content_scripts": [
     {
       "matches": ["*://dxr.mozilla.org/mozilla-central/source/*"],
-      "js": ["src/dxr.js"],
+      "js": ["build/dxr.js"],
       "css": ["src/spinner.css", "src/dxr.css"],
       "run_at": "document_end"
     },
     {
       "matches": ["*://searchfox.org/mozilla-central/source/*"],
-      "js": ["src/searchfox.js"],
+      "js": ["build/searchfox.js"],
       "css": ["src/spinner.css", "src/dxr.css"],
       "run_at": "document_end"
     },
     {
       "matches": ["*://crash-stats.mozilla.com/report/index/*"],
-      "js": ["src/socorro.js"],
+      "js": ["build/socorro.js"],
       "css": ["src/spinner.css", "src/socorro.css"],
       "run_at": "document_end"
     },
     {
       "matches": ["*://hg.mozilla.org/mozilla-central/file/*",
                   "*://hg.mozilla.org/mozilla-central/annotate/*"],
-      "js": ["src/hgmo.js"],
+      "js": ["build/hgmo.js"],
       "css": ["src/spinner.css", "src/dxr.css"],
       "run_at": "document_end"
     }
