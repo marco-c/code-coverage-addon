@@ -1,8 +1,5 @@
 const path = require('path');
 const https = require('https');
-const SaveRemoteFilePlugin = require('save-remote-file-webpack-plugin');
-
-
 
 module.exports = {
   mode: 'development',
